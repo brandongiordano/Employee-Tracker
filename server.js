@@ -36,29 +36,52 @@ const menu = [
 function init() {
     inquirer
         .prompt(menu)
-        .then(response => {
-            if (response.menu === "View Departments") {
-                viewDepartments();
-            } else if (response.menu === "View Roles") {
-                viewRoles();
-            } else if (response.menu === "View Employees") {
-                viewEmployees();
-            } else if (response.menu === "Add Department") {
-                addDepartment();
-            } else if (response.menu === "Add Role") {
-                addRole();
-            } else if (response.menu === "Add Employee") {
-                addEmployee();
-            } else if (response.menu === "Update Employee Role") {
-                updateRole();
-            } else if (response.menu === "Delete Department") {
-                deleteDept();
-            } else if (response.menu === "Delete Role") {
-                deleteRole();
-            } else if (response.menu === "Delete Employee") {
-                deleteEmp();
-            } else if (response.menu === "Close") {
-                close();
-            }
+        .then(function(answers) {
+            switch (answers.menu) {
+                case "View Departments":
+                    viewDepts();
+                break;
+    
+                case "View Roles":
+                    viewRoles();
+                break;
+    
+                case "View Employees":
+                    viewEmployees();
+                break;
+                    
+                case "Add Department":
+                    addDept();
+                break;
+    
+                case "Add Role":
+                    addRole();
+                break;
+    
+                case "Add Employee":
+                    addEmployee();
+                break;
+    
+                case "Update Employee Role":
+                    updateRole();
+                break;
+    
+                case "Delete Department":
+                    deleteDept();
+                break;
+    
+                case "Delete Role":
+                    deleteRole();
+                break;
+
+                case "Delete Employee":
+                    deleteEmployee();
+                break;
+    
+                case "Exit":
+                    console.log ("Thank You For Using The Workforce Database");
+                    db.end();
+                break;
+                }
         })
 }
