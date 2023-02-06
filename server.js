@@ -170,7 +170,7 @@ function selectRole() {
   return roleArr;
 }
 
-// Add Department
+// Add Role
 function addRole() { 
     db.query("SELECT role.title AS Title, role.salary AS Salary FROM role LEFT JOIN department.name AS Department FROM department;",   function(err, res) {
       inquirer.prompt([
@@ -191,13 +191,13 @@ function addRole() {
             choices: selectDept()
           }
       ]).then(function(answers) {
-          var deptId = selectDept().indexOf(answers.choice) + 1
+          let deptId = selectDept().indexOf(answers.choice) + 1
           db.query(
               "INSERT INTO role SET ?",
               {
                 title: answers.title,
                 salary: answers.salary,
-                departmentID: deptId
+                department_id: deptId
               },
               function(err) {
                   if (err) throw err
