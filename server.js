@@ -78,10 +78,22 @@ function init() {
                     deleteEmployee();
                 break;
     
-                case "Exit":
+                case "Close":
                     console.log ("Thank You For Using The Workforce Database");
                     db.end();
                 break;
                 }
         })
 }
+
+function viewDepts() {
+    db.query("SELECT department.id AS ID, department.name AS Department FROM department",
+    function(err, res) {
+        if (err) throw err
+        console.log("Departments");
+        console.table(res);
+        init();
+    })
+}
+
+init();
