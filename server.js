@@ -1,18 +1,21 @@
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const conTable = require("console.table")
+const conTable = require("console.table");
+const express = require("express");
+const app = express();
 
 const db = mysql.createConnection({
     host: "localhost",
     port: 3001,
     user: "root",
+    // Add your password below:
     password: "password",
     database: "workforce_db"
  },
  console.log(`Connected to the workforce_db database.`)
 );
 
-const menu = [
+const menu = 
     {
     name: "menu",
     type: "list",
@@ -30,14 +33,14 @@ const menu = [
         "Delete Employee",
         "Close"
     ]
-  }
-];
+  };
 
 // Init function prompts user and allows use of the database
 function init() {
     inquirer
         .prompt(menu)
         .then(function(answers) {
+            console.log(answers);
             switch (answers.menu) {
                 case "View Departments":
                     viewDepts();
@@ -208,5 +211,47 @@ function addRole() {
       });
     });
 };
+
+// Function to pull names from database for updateRole() function
+const employeeChoices = async () => {
+    const employeeQuery = `SELECT id AS value, last_name FROM employee;`;
+    const employees = await db.query(employeeQuery);
+    return employees[0];
+};
+
+// Update Role
+function updateRole() {
+    db.query("SELECT employee.last_name AS Last_Name, employee.first_name AS First_Name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
+       (err, res) => {
+        if (err) throw err;
+        inquirer.prompt([
+            {
+            name: "last_name",
+            type: "list",
+            message: "Who's role are we updating?",
+            choices: employeeChoices(),
+            },
+            {
+                name: "role",
+                type: "input",
+                message: "What is the employee's new role?",
+            },
+        ]).then(function (answers) {
+            db.query("UPDATE employee SET ?",
+            {
+                last_name: answers.last_name,
+                role_id: answers.role
+            },
+            function(err) {
+                if (err) throw err
+                console.table(res);
+                init();
+            }
+            );
+        })
+       })
+}
+
+deleteDept
 
 init();
