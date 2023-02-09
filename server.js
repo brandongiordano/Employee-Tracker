@@ -16,8 +16,8 @@ const db = mysql.createConnection({
 );
 
 const menu = 
-    {
-    name: "menu",
+    [{
+    name: "responses",
     type: "list",
     message: "Hello, what would you like to do?",
     choices: [
@@ -28,51 +28,55 @@ const menu =
         "Add Role",
         "Add Employee",
         "Update Employee Role",
-        "Delete Department",
-        "Delete Role",
-        "Delete Employee",
         "Close"
-    ]
-  };
+    ],
+  },];
 
 // Init function prompts user and allows use of the database
 function init() {
-    inquirer
-        .prompt(menu)
+    inquirer.prompt(menu)
         .then(function(answers) {
-            console.log(answers);
-            switch (answers.menu) {
+            // console.log(answers);
+            switch (answers.responses) {
                 case "View Departments":
-                    viewDepts();
+                    // viewDepts();
+                    console.log("testing");
+                    
                 break;
     
                 case "View Roles":
-                    viewRoles();
+                    // viewRoles();
+                    console.log("testing2");
                 break;
     
                 case "View Employees":
-                    viewEmployees();
+                    // viewEmployees();
+                    console.log("testing3");
                 break;
                     
-                case "Add Department":
-                    addDept();
-                break;
+                // case "Add Department":
+                //     // addDept();
+                //     console.log("testing4");
+                // break;
     
                 case "Add Role":
-                    addRole();
+                    // addRole();
+                    console.log("testing5");
                 break;
     
                 case "Add Employee":
-                    addEmployee();
+                    // addEmployee();
+                    console.log("testing6");
                 break;
     
                 case "Update Employee Role":
-                    updateRole();
+                    // updateRole();
+                    console.log("testing7");
                 break;
     
                 case "Close":
                     console.log ("Thank You For Using The Workforce Database");
-                    db.end();
+                    // db.end();
                 break;
                 }
         })
