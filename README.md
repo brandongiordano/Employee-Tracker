@@ -2,7 +2,7 @@
 
 ## Description
 
-This application allows a USER to manage a workforce database with all the CRUD operations using node, mysql, inquirer, and JavaScript
+This application allows a USER to manage a workforce database with all the CRUD operations except for "Destroy". It was constructed using node, mysql, inquirer, and JavaScript
 
 ## Table of Contents
 

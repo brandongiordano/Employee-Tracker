@@ -70,18 +70,6 @@ function init() {
                     updateRole();
                 break;
     
-                case "Delete Department":
-                    deleteDept();
-                break;
-    
-                case "Delete Role":
-                    deleteRole();
-                break;
-
-                case "Delete Employee":
-                    deleteEmployee();
-                break;
-    
                 case "Close":
                     console.log ("Thank You For Using The Workforce Database");
                     db.end();
@@ -251,7 +239,5 @@ function updateRole() {
         })
        })
 }
-
-deleteDept
 
 init();
