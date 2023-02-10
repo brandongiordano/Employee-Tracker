@@ -203,6 +203,34 @@ const employeeChoices = async () => {
     return employees[0];
 };
 
+// Add Employee
+function addEmployee() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "firstName",
+            message: "What is the employee's first name?",
+        },
+        {
+            type: "input",
+            name: "lastName",
+            message: "What is the employee's last name?",
+        },
+        {
+            type: "input",
+            name: "managerId",
+            message: "What is the employee's manager ID Number?",
+        }
+    ]).then(function(answers) {
+        db.query("INSERT INTO employee (first_name, last_name, manager_id) VALUES (?, ?, ?)", [answers.firstName, answers.lastName, answers.managerId],
+         function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            init();
+         })
+    })
+}
+
 // Update Role
 function updateRole() {
     db.query("SELECT employee.last_name AS Last_Name, employee.first_name AS First_Name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
