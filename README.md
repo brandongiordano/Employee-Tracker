@@ -14,6 +14,7 @@ This application allows a USER to manage a workforce database with all the CRUD 
 - [Contributing](#contributing)
 - [Testing](#testing)
 - [Questions](#questions)
+- [Video](#video)
 
 ## Dependencies
 
@@ -47,3 +48,9 @@ This project does not contain any tests
 ## Questions
 
 If you have any questions you can contact me at bgiordano9917@aol.com or via my GitHub: brandongiordano
+
+##Video
+
+
+https://user-images.githubusercontent.com/110688825/217997790-2c89700d-d26d-4e01-b283-5bc983448d7b.mp4
+
