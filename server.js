@@ -6,7 +6,7 @@ const app = express();
 
 const db = mysql.createConnection({
     host: "localhost",
-    port: 3001,
+    // port: 3001,
     user: "root",
     // Add your password below:
     password: "password",
@@ -39,51 +39,51 @@ function init() {
             // console.log(answers);
             switch (answers.responses) {
                 case "View Departments":
-                    // viewDepts();
+                    viewDepts();
                     console.log("testing");
                     
                 break;
     
                 case "View Roles":
-                    // viewRoles();
+                    viewRoles();
                     console.log("testing2");
                 break;
     
                 case "View Employees":
-                    // viewEmployees();
+                    viewEmployees();
                     console.log("testing3");
                 break;
                     
-                // case "Add Department":
-                //     // addDept();
-                //     console.log("testing4");
-                // break;
+                case "Add Department":
+                    addDept();
+                    console.log("testing4");
+                break;
     
                 case "Add Role":
-                    // addRole();
+                    addRole();
                     console.log("testing5");
                 break;
     
                 case "Add Employee":
-                    // addEmployee();
+                    addEmployee();
                     console.log("testing6");
                 break;
     
                 case "Update Employee Role":
-                    // updateRole();
+                    updateRole();
                     console.log("testing7");
                 break;
     
                 case "Close":
                     console.log ("Thank You For Using The Workforce Database");
-                    // db.end();
+                    db.end();
                 break;
                 }
         })
 }
 
 function viewDepts() {
-    db.query("SELECT department.id AS ID, department.name AS Department FROM department",
+    db.query("SELECT department.id AS ID, department.department_name AS Department FROM department",
     function(err, res) {
         if (err) throw err
         console.log("Departments");
@@ -103,7 +103,7 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-    db.query("SELECT employee.id AS Employee.ID, SELECT first_name AS First_Name, SELECT last_name AS Last_Name, SELECT role_id AS Role_ID, SELECT manager_id AS Manager_ID FROM employee",
+    db.query("SELECT employee.id AS Employee_ID, first_name AS First_Name, last_name AS Last_Name, role_id AS Role_ID, manager_id AS Manager_ID FROM employee",
     function(err, res) {
         if (err) throw err
         console.log("Employees");
@@ -130,24 +130,24 @@ function addDept() {
         {
           name: "name",
           type: "input",
-          message: "What Department would you like to add? "
-        },
-        {
-            name: "id",
-            type: "input",
-            message: "What is the new Department ID number? "
-          }
-
+          message: "What Department would you like to add? ",
+          validate: (value) => {
+            if(value) {
+                return true;
+            } else {
+                console.log("Enter a Department name to continue.")
+                return false;
+            }
+        }
+        }
     ]).then(function(answers) {
-        db.query("INSERT INTO department SET ? ",
-            {
-              name: answers.name,
-              id: answers.id
-            },
-            function(err) {
+        db.query("INSERT INTO department (department_name) VALUES(?)", answers.name,
+            // {
+            //   department_name: answers.name,
+            // },
+            function(err, res) {
                 if (err) throw err
-                console.table(res);
-                init();
+                // init();
             }
         )
     })
@@ -166,43 +166,35 @@ function selectRole() {
 }
 
 // Add Role
-function addRole() { 
-    db.query("SELECT role.title AS Title, role.salary AS Salary FROM role LEFT JOIN department.name AS Department FROM department;",   function(err, res) {
-      inquirer.prompt([
-          {
-            name: "title",
-            type: "input",
-            message: "What is name of the new role?"
-          },
-          {
-            name: "salary",
-            type: "input",
-            message: "What is the salary of the new role?"
-          } ,
-          {
-            name: "department",
-            type: "rawlist",
-            message: "Under which department does this new role fall?",
-            choices: selectDept()
-          }
-      ]).then(function(answers) {
-          let deptId = selectDept().indexOf(answers.choice) + 1
-          db.query(
-              "INSERT INTO role SET ?",
-              {
-                title: answers.title,
-                salary: answers.salary,
-                department_id: deptId
-              },
-              function(err) {
-                  if (err) throw err
-                  console.table(answers);
-                  init();
-              }
-          )     
+function addRole() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "What is the name of the new role?",
+          name: "roleName"
+        },
+        {
+          type: "input",
+          message: "What is the salary of the role?",
+          name: "roleSalary"
+        },
+        {
+          type: "input",
+          message: "What is the department id number?",
+          name: "deptId"
+        }
+      ])
+      .then(function(answer) {
+  
+  
+        db.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.roleName, answer.roleSalary, answer.deptId], function(err, res) {
+          if (err) throw err;
+          console.table(res);
+          init();
+        });
       });
-    });
-};
+  };
 
 // Function to pull names from database for updateRole() function
 const employeeChoices = async () => {
