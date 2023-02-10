@@ -40,42 +40,41 @@ function init() {
             switch (answers.responses) {
                 case "View Departments":
                     viewDepts();
-                    console.log("testing");
                     
                 break;
     
                 case "View Roles":
                     viewRoles();
-                    console.log("testing2");
+
                 break;
     
                 case "View Employees":
                     viewEmployees();
-                    console.log("testing3");
+
                 break;
                     
                 case "Add Department":
                     addDept();
-                    console.log("testing4");
+
                 break;
     
                 case "Add Role":
                     addRole();
-                    console.log("testing5");
+
                 break;
     
                 case "Add Employee":
                     addEmployee();
-                    console.log("testing6");
+
                 break;
     
                 case "Update Employee Role":
                     updateRole();
-                    console.log("testing7");
+
                 break;
     
                 case "Close":
-                    console.log ("Thank You For Using The Workforce Database");
+
                     db.end();
                 break;
                 }
@@ -142,12 +141,11 @@ function addDept() {
         }
     ]).then(function(answers) {
         db.query("INSERT INTO department (department_name) VALUES(?)", answers.name,
-            // {
-            //   department_name: answers.name,
-            // },
+
             function(err, res) {
-                if (err) throw err
-                // init();
+                if (err) throw err;
+                console.table(res);
+                 init();
             }
         )
     })
