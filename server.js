@@ -233,35 +233,26 @@ function addEmployee() {
 
 // Update Role
 function updateRole() {
-    db.query("SELECT employee.last_name AS Last_Name, employee.first_name AS First_Name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
-       (err, res) => {
-        if (err) throw err;
         inquirer.prompt([
             {
-            name: "last_name",
-            type: "list",
-            message: "Who's role are we updating?",
-            choices: employeeChoices(),
+              type: "input",
+              message: "Which employee would you like to update?",
+              name: "empName"
             },
+      
             {
-                name: "role",
-                type: "input",
-                message: "What is the employee's new role?",
-            },
-        ]).then(function (answers) {
-            db.query("UPDATE employee SET ?",
-            {
-                last_name: answers.last_name,
-                role_id: answers.role
-            },
-            function(err) {
-                if (err) throw err
-                console.table(res);
-                init();
+              type: "input",
+              message: "What is their new roleID?",
+              name: "newRole"
             }
-            );
-        })
-       })
+          ])
+          .then(function(answer) {     
+            db.query('UPDATE employee SET role_id=? WHERE first_name= ?',[answer.newRole, answer.empName],function(err, res) {
+              if (err) throw err;
+              console.table(res);
+              init();
+            });
+          });
 }
 
 init();
